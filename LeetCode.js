@@ -1,3 +1,23 @@
+// 1. Two Sum
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+  let rs = [];
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[i] + nums[j] === target) {
+        rs = [i, j];
+        return rs;
+      }
+    }
+  }
+  return rs;
+};
+
 // 5. 最长回文子串
 
 var longestPalindrome = function(s) {
@@ -121,8 +141,6 @@ var threeSum = function(nums) {
   }
   return rs;
 };
-
-console.log(threeSum([-4, -2, -2, -2, 0, 1, 2, 2, 2, 3, 3, 4, 4, 6, 6]));
 
 // 20. 有效的括号
 
