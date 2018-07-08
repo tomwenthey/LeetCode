@@ -180,8 +180,6 @@ var myAtoi = function(str) {
   return rs;
 };
 
-console.log(myAtoi("   -4193 with words"));
-
 // 11. 盛最多水的容器
 /**
  * @param {number[]} height
@@ -313,6 +311,24 @@ var isValid = function(s) {
   }
 };
 
+// 344. 反转字符串
+
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseString = function(s) {
+  let arr = [],
+    str = "";
+  for (let i = 0; i < s.length; i++) {
+    arr.unshift(s[i]);
+  }
+  for (let i = 0; i < arr.length; i++) {
+    str = str.concat(arr[i]);
+  }
+  return str;
+};
+
 // 496. 下一个更大元素
 /**
  * @param {number[]} findNums
@@ -337,4 +353,40 @@ var nextGreaterElement = function(findNums, nums) {
     }
   }
   return rs;
+};
+
+// 541. 反转字符串 II
+
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {string}
+ */
+var reverseStr = function(s, k) {
+  let arr = [];
+  let str = "";
+  str = str.concat(s[0]);
+  let i;
+  for (i = 1; i < s.length; i++) {
+    if (i % k === 0) {
+      arr.push(str);
+      str = "";
+    }
+    str = str.concat(s[i]);
+  }
+  while (i < s.length) {
+    str = str.concat(s[i]);
+    i++;
+  }
+  arr.push(str);
+  for (let j = 0; j < arr.length; j++) {
+    if (j % 2 === 0) {
+      arr[j] = reverseString(arr[j]);
+    }
+  }
+  str = "";
+  for (let j = 0; j < arr.length; j++) {
+    str = str.concat(arr[j]);
+  }
+  return str;
 };
