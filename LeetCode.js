@@ -18,6 +18,62 @@ var twoSum = function(nums, target) {
   return rs;
 };
 
+// 2. 两数相加
+
+function ListNode(val) {
+  this.val = val;
+  this.next = null;
+}
+
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var addTwoNumbers = function(l1, l2) {
+  // let l1tmp = l1;
+  // let l2tmp = l2;
+  // let l1num = 0;
+  // let l2num = 0;
+  // let digit = 0;
+  // while (l1tmp != null) {
+  //   l1num += l1tmp.val * Math.pow(10, digit);
+  //   digit++;
+  //   l1tmp = l1tmp.next;
+  // }
+  // digit = 0;
+  // while (l2tmp != null) {
+  //   l2num += l2tmp.val * Math.pow(10, digit);
+  //   digit++;
+  //   l2tmp = l2tmp.next;
+  // }
+  // let sum = l1num + l2num;
+  // let sumString = sum.toString();
+  // let rsListNode = new ListNode(
+  //   Number.parseInt(sumString[sumString.length - 1])
+  // );
+  // let rsTmp = rsListNode;
+  // for (let i = sumString.length - 2; i >= 0; i--) {
+  //   rsTmp.next = new ListNode(Number.parseInt(sumString[i]));
+  //   rsTmp = rsTmp.next;
+  // }
+  // return rsListNode;
+  // 上面是错误解答，通过把链表转成数字进行计算，没有考虑到链表位数超过Int限制的情况
+};
+
+let l1 = new ListNode(2);
+l1.next = new ListNode(4);
+l1.next.next = new ListNode(3);
+
+let l2 = new ListNode(5);
+l2.next = new ListNode(6);
+l2.next.next = new ListNode(4);
+let rsL = addTwoNumbers(l1, l2);
+
+while (rsL != null) {
+  rsL = rsL.next;
+}
+
 // 5. 最长回文子串
 
 var longestPalindrome = function(s) {
@@ -78,6 +134,74 @@ var longestPalindrome = function(s) {
   return s.slice(maxStart, maxEnd + 1);
 };
 
+// 8. 字符串转整数 (atoi)
+
+/**
+ * @param {string} str
+ * @return {number}
+ */
+var myAtoi = function(str) {
+  let rs = 0;
+  let flag = 0;
+  let pointer = 0;
+  let isNegative = false;
+  let tmpRs = [];
+  while (pointer < str.length) {
+    if (str[pointer] === " ") {
+      pointer++;
+    } else {
+      break;
+    }
+  }
+  if (str[pointer] === "-" || str[pointer] === "+") {
+    if (str[pointer] === "-") {
+      isNegative = true;
+    }
+    pointer++;
+  }
+
+  while (pointer < str.length) {
+    if (str[pointer] === " " || isNaN(str[pointer])) {
+      break;
+    } else {
+      tmpRs.unshift(str[pointer]);
+      pointer++;
+    }
+  }
+  for (let i = 0; i < tmpRs.length; i++) {
+    rs += tmpRs[i] * Math.pow(10, i);
+  }
+  if (isNegative) {
+    rs = 0 - rs;
+  }
+  if (rs > 2147483647) return 2147483647;
+  if (rs < -2147483648) return -2147483648;
+
+  return rs;
+};
+
+console.log(myAtoi("   -4193 with words"));
+
+// 11. 盛最多水的容器
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var maxArea = function(height) {
+  let i = 0,
+    j = height.length - 1;
+  let rs = 0;
+  while (i < j) {
+    rs = getArea(i, j, height) > rs ? getArea(i, j, height) : rs;
+    height[i] < height[j] ? i++ : j--;
+  }
+  return rs;
+};
+
+function getArea(i, j, height) {
+  return Math.min(height[i], height[j]) * (j - i);
+}
+
 // 14. 最长公共前缀
 /**
  * @param {string[]} strs
@@ -110,7 +234,7 @@ var threeSum = function(nums) {
   nums.sort(function(a, b) {
     return a > b ? 1 : -1;
   });
-  console.log(nums);
+
   for (let count = 0; count < nums.length - 2; count++) {
     if (nums[count] > 0) {
       break;
@@ -187,4 +311,30 @@ var isValid = function(s) {
   } else {
     return true;
   }
+};
+
+// 496. 下一个更大元素
+/**
+ * @param {number[]} findNums
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var nextGreaterElement = function(findNums, nums) {
+  let flag;
+  let rs = [];
+  for (let i = 0; i < findNums.length; i++) {
+    flag = 0;
+    for (let j = 0; j < nums.length; j++) {
+      if (findNums[i] === nums[j]) {
+        flag = 1;
+      } else if (flag && nums[j] > findNums[i]) {
+        rs.push(nums[j]);
+        break;
+      }
+      if (j === nums.length - 1) {
+        rs.push(-1);
+      }
+    }
+  }
+  return rs;
 };
