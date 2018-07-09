@@ -59,20 +59,50 @@ var addTwoNumbers = function(l1, l2) {
   // }
   // return rsListNode;
   // 上面是错误解答，通过把链表转成数字进行计算，没有考虑到链表位数超过Int限制的情况
+
+  let l1tmp = l1,
+    l2tmp = l2;
+  let l3 = new ListNode();
+  let tmpl3 = l3;
+  let l3val;
+  let record = 0;
+  while (l1tmp || l2tmp) {
+    if (!l1tmp) {
+      l3val = l2tmp.val + record;
+    } else if (!l2tmp) {
+      l3val = l1tmp.val + record;
+    } else {
+      l3val = l1tmp.val + l2tmp.val + record;
+    }
+    record = Math.floor(l3val / 10);
+    l3val = l3val % 10;
+    tmpl3.val = l3val;
+    if (l1tmp) {
+      l1tmp = l1tmp.next;
+    }
+    if (l2tmp) {
+      l2tmp = l2tmp.next;
+    }
+    if (l1tmp || l2tmp) {
+      tmpl3.next = new ListNode();
+      tmpl3 = tmpl3.next;
+    }
+  }
+  if (record) {
+    tmpl3.next = new ListNode(1);
+  }
+
+  return l3;
 };
 
 let l1 = new ListNode(2);
 l1.next = new ListNode(4);
 l1.next.next = new ListNode(3);
-
+l1.next.next.next = new ListNode(3);
 let l2 = new ListNode(5);
 l2.next = new ListNode(6);
 l2.next.next = new ListNode(4);
 let rsL = addTwoNumbers(l1, l2);
-
-while (rsL != null) {
-  rsL = rsL.next;
-}
 
 // 5. 最长回文子串
 
@@ -309,6 +339,40 @@ var isValid = function(s) {
   } else {
     return true;
   }
+};
+
+// 205. 同构字符串
+
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isIsomorphic = function(s, t) {
+  let m1 = new Map();
+  let m2 = new Map();
+  if (s.length !== t.length) {
+    return false;
+  }
+  for (let i = 0; i < s.length; i++) {
+    if (m1.has(s[i])) {
+      if (m1.get(s[i]) !== t[i]) {
+        return false;
+      }
+    } else {
+      m1.set(s[i], t[i]);
+    }
+  }
+  for (let i = 0; i < t.length; i++) {
+    if (m2.has(t[i])) {
+      if (m2.get(t[i]) !== s[i]) {
+        return false;
+      }
+    } else {
+      m2.set(t[i], s[i]);
+    }
+  }
+  return true;
 };
 
 // 344. 反转字符串
